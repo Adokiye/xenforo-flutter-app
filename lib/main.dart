@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Xenforo Forum',
       theme: ThemeData(
+        splashColor: Colors.white.withOpacity(0.25),
         fontFamily: 'Gilroy',
         primarySwatch: colorCustom,
         visualDensity: VisualDensity.adaptivePlatformDensity,

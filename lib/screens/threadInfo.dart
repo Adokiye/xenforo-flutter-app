@@ -10,6 +10,7 @@ import 'package:xenforo/components/buttons/fullButton/index.dart';
 import 'package:xenforo/components/postBox/index.dart';
 import 'package:xenforo/components/emptyData/index.dart';
 import 'package:xenforo/components/loader.dart';
+import 'package:xenforo/components/buttons/floatingButton.dart';
 
 class ThreadInfo extends StatefulWidget {
   final int id;
@@ -108,7 +109,7 @@ class _ThreadInfoState extends State<ThreadInfo> {
             return Loader();
           },
         ),
-      
+       floatingActionButton: FloatingButton(onPressed: (){},),
     );
   }
 }

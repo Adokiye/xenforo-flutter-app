@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:xenforo/helpers/key.dart';
 import 'package:xenforo/components/emptyData/index.dart';
 import 'package:xenforo/components/loader.dart';
+import 'package:xenforo/components/buttons/floatingButton.dart';
 
 class ForumThread extends StatefulWidget {
   final int id;
@@ -101,7 +102,7 @@ class _ForumThreadState extends State<ForumThread> {
             return Loader();
           },
         ),
-      
+         floatingActionButton: FloatingButton(onPressed: (){},),
     );
   }
 }
