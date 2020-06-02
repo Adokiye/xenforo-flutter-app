@@ -12,6 +12,7 @@ import 'package:xenforo/components/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:xenforo/providers/user.dart';
+import 'package:xenforo/screens/auth/login.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -76,7 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }else{
       stateText = 'Login';
       stateFunction = (){
-
+                Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeftWithFade,
+              child: Login()));
       };
     }
     return Scaffold(
@@ -149,22 +155,60 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Forums',
                 style: TextStyle(fontSize: 14.0),
               ),
-              onTap: () {
+              onTap: appState.id != ''?() {
                 Navigator.pop(context);
-              },
+              }:(){Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeftWithFade,
+              child: Login()));},
+            ),
+                  ListTile(
+              title: Text(
+                'My Account',
+                style: TextStyle(fontSize: 14.0),
+              ),
+              onTap: appState.id != '' ? () {
+                Navigator.pop(context);
+              }: (){   Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeftWithFade,
+              child: Login()));},
+            ),
+                       ListTile(
+              title: Text(
+                'My Wallet',
+                style: TextStyle(fontSize: 14.0),
+              ),
+              onTap: appState.id != '' ? () {
+                Navigator.pop(context);
+              }: (){   Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeftWithFade,
+              child: Login()));},
             ),
             ListTile(
               title: Text(
                 'Conversations',
                 style: TextStyle(fontSize: 14.0),
               ),
-              onTap: () {
+              onTap: appState.id != '' ? () {
                 Navigator.push(
                     context,
                     PageTransition(
                         type: PageTransitionType.rightToLeft,
                         child: Conversations()));
-              },
+              }:(){Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeftWithFade,
+              child: Login()));},
             ),
             ListTile(
               title: Text(
