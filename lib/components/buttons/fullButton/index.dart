@@ -4,7 +4,6 @@ class FullButton extends StatefulWidget {
   final String title;
   final GestureTapCallback onPressed;
   FullButton({Key key, @required this.title, @required this.onPressed}) : super(key: key);
-
   @override
   _FullButtonState createState() => _FullButtonState();
 }
@@ -13,6 +12,7 @@ class _FullButtonState extends State<FullButton> {
   @override
   void initState() {
     super.initState();
+
   }
 
   @override

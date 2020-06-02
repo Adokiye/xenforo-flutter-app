@@ -9,6 +9,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:xenforo/screens/conversations.dart';
 import 'package:xenforo/components/emptyData/index.dart';
 import 'package:xenforo/components/loader.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -23,8 +24,32 @@ class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey _scaffoldKey = new GlobalKey();
   Future<dynamic> futureForums;
   List<Forum> forums;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  Future<String> _id;
+  String stateText = '';
+  var stateFunction;
 
-  
+   Future<void> _checkLoggedIn() async {
+    final SharedPreferences prefs = await _prefs;
+    final String id = (prefs.getString('id') ?? '');
+    final bool onCheck = (prefs.getBool('on'));
+    if(id != ''){
+     setState((){
+       stateText = 'Log out';
+       stateFunction = (){
+             setState(() {
+      _id = prefs.setString("id", '').then((bool success) {
+        
+      });
+    });
+       }
+     });
+    }else if(onCheck){
+
+    }else{
+
+    }
+  }
 
   Future<dynamic> fetchForums() async {
     final response = await http.get(
@@ -150,10 +175,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               title: Text(
-                'Log out',
+                stateText,
                 style: TextStyle(fontSize: 14.0),
               ),
-              onTap: () {},
+              onTap: stateFunction,
             ),
           ],
         ),
