@@ -15,7 +15,7 @@ class User {
       id: json['user_id'],
       reactionScore: json['reaction_score'],
       messageCount: json['nessage_count'],
-      lastSeen: json['last_Activity'],
+      lastSeen: json['last_activity'],
     );
   }
     User.fromMap(Map<String, dynamic> map) {
@@ -24,5 +24,6 @@ class User {
     this.id = map['user_id'];
     this.reactionScore = map['reaction_score'];
     this.messageCount = map['message_count'];
+    this.lastSeen = map['last_activity'];
   }
 }
