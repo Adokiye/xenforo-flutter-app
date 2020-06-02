@@ -5,10 +5,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xenforo/helpers/key.dart';
 import 'package:xenforo/models/post.dart';
+import 'package:xenforo/components/threadHeader/threadHeader.dart';
 
 class ThreadInfo extends StatefulWidget {
   final int id;
-  ThreadInfo({Key key, this.title, this.id}) : super(key: key);
+  final ForumContent forumData;
+  ThreadInfo({Key key, this.title, this.id, this.forumData}) : super(key: key);
 
   final String title;
 
@@ -79,7 +81,10 @@ class _ThreadInfoState extends State<ThreadInfo> {
             }
             if (snapshot.hasData) {
              // print(jsonDecode(snapshot.data[0]));
-              return new ListView.builder(
+              return new Column(
+                children:<Widget>[
+                  ThreadHeader(forumData: widget.forumData),
+                  ListView.builder(
                 itemBuilder: (BuildContext context, int index){
                //   print(Post(title: snapshot.data));
                 //  return new ThreadPostBox(
@@ -87,7 +92,7 @@ class _ThreadInfoState extends State<ThreadInfo> {
                 },
                 itemCount: snapshot.data.length,
                 shrinkWrap: true,
-              );
+              )]);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
