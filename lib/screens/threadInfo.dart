@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:xenforo/helpers/key.dart';
 import 'package:xenforo/models/post.dart';
 import 'package:xenforo/components/threadHeader/threadHeader.dart';
+import 'package:xenforo/components/buttons/fullButton/index.dart';
 
 class ThreadInfo extends StatefulWidget {
   final int id;
@@ -81,7 +82,9 @@ class _ThreadInfoState extends State<ThreadInfo> {
             }
             if (snapshot.hasData) {
              // print(jsonDecode(snapshot.data[0]));
-              return new Column(
+              return new Stack(
+                children:<Widget>[
+                  Column(
                 children:<Widget>[
                   ThreadHeader(forumData: widget.forumData),
                   ListView.builder(
@@ -92,7 +95,9 @@ class _ThreadInfoState extends State<ThreadInfo> {
                 },
                 itemCount: snapshot.data.length,
                 shrinkWrap: true,
-              )]);
+              )]),
+              Positioned(bottom: 10,child: FullButton(title: 'POST', onPressed: (){},))
+              ]);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }

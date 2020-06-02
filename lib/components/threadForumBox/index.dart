@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xenforo/models/forumContent.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:xenforo/screens/threadInfo.dart';
 
 class ThreadForumBox extends StatefulWidget {
     final ForumContent forumData;
@@ -82,7 +84,15 @@ class _ThreadForumBoxState extends State<ThreadForumBox> {
           Icons.arrow_forward_ios,
           color: const Color(0xff1281dd),
         ),
-        onTap: () {},
+          onTap: () {
+          Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeft,
+              child: ThreadInfo(title: widget.forumData.title,
+              id:widget.forumData.id, forumData: widget.forumData,)));
+        },
       ),
     );
   }
