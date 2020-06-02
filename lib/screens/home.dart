@@ -24,6 +24,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<dynamic> futureForums;
   List<Forum> forums;
 
+  
+
   Future<dynamic> fetchForums() async {
     final response = await http.get(
       url + 'nodes',
