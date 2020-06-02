@@ -7,6 +7,7 @@ import 'package:xenforo/helpers/key.dart';
 import 'package:xenforo/models/post.dart';
 import 'package:xenforo/components/threadHeader/threadHeader.dart';
 import 'package:xenforo/components/buttons/fullButton/index.dart';
+import 'package:xenforo/components/postBox/index.dart';
 
 class ThreadInfo extends StatefulWidget {
   final int id;
@@ -90,8 +91,8 @@ class _ThreadInfoState extends State<ThreadInfo> {
                   ListView.builder(
                 itemBuilder: (BuildContext context, int index){
                //   print(Post(title: snapshot.data));
-                //  return new ThreadPostBox(
-                //   forumData: snapshot.data[index]);
+                 return new PostBox(
+                  post: snapshot.data[index]);
                 },
                 itemCount: snapshot.data.length,
                 shrinkWrap: true,

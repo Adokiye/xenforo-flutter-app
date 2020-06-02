@@ -89,7 +89,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     if (snapshot.connectionState == ConnectionState.none &&
             snapshot.hasData == null) {
               //print('project snapshot data is: ${projectSnap.data}');
-              return Center(child: Text('No Forums available'));
+              return Center(child: Text('No Forums available', 
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black,
+              fontSize: 25.0, fontWeight: FontWeight.w400),));
             }
             if (snapshot.hasData) {
              // print(jsonDecode(snapshot.data[0]));
