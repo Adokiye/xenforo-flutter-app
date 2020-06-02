@@ -6,12 +6,14 @@ import 'package:http/http.dart' as http;
 import 'package:xenforo/components/loader.dart';
 import 'package:xenforo/components/buttons/borderButton/index.dart';
 import 'package:flutter/services.dart';
-import 'package:xenforo/screens/home.dart';
+import 'package:xenforo/screens/threadInfo.dart'
+import 'package:xenforo/models/forumContent.dart';
 
 class NewPost extends StatefulWidget {
-  NewPost({Key key, @required this.id, @required this.title}) : super(key: key);
+  NewPost({Key key, @required this.id, @required this.title, @required this.forumData}) : super(key: key);
   final int id;
   final String title;
+  final ForumContent forumData;
 
   @override
   _NewPostState createState() => _NewPostState();
@@ -55,8 +57,8 @@ class _NewPostState extends State<NewPost> {
         Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => MyHomePage(
-          ),
+          builder: (context) => ThreadInfo(forumData: widget.forumData,
+          title: widget.title),
         ),
         (Route<dynamic> route) => false
       );
