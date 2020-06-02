@@ -9,7 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:xenforo/screens/home.dart';
 
 class NewThread extends StatefulWidget {
-  NewThread({Key key, @required this.id}) : super(key: key);
+  final String title;
+  NewThread({Key key, @required this.id,@required this.title}) : super(key: key);
   final int id;
 
   @override
@@ -104,7 +105,7 @@ class _NewThreadState extends State<NewThread> {
     return Scaffold(
        key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('New Thread'),
+        title: Text(widget.title),
       ),
       body: new SingleChildScrollView(
         child: new Container(

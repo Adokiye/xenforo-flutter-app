@@ -6,11 +6,16 @@ import 'package:http/http.dart' as http;
 import 'package:xenforo/components/loader.dart';
 import 'package:xenforo/components/buttons/borderButton/index.dart';
 import 'package:flutter/services.dart';
-import 'package:xenforo/screens/threadInfo.dart'
+import 'package:xenforo/screens/threadInfo.dart';
 import 'package:xenforo/models/forumContent.dart';
 
 class NewPost extends StatefulWidget {
-  NewPost({Key key, @required this.id, @required this.title, @required this.forumData}) : super(key: key);
+  NewPost(
+      {Key key,
+      @required this.id,
+      @required this.title,
+      @required this.forumData})
+      : super(key: key);
   final int id;
   final String title;
   final ForumContent forumData;
@@ -27,7 +32,7 @@ class _NewPostState extends State<NewPost> {
   bool _showLoader = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-   Future<dynamic> postThread() async {
+  Future<dynamic> postThread() async {
     _showLoader = true;
     final response = await http.post(
       url + 'posts/',
@@ -35,7 +40,7 @@ class _NewPostState extends State<NewPost> {
         'XF-Api-Key': apiKey,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-        body: jsonEncode(<String, dynamic>{
+      body: jsonEncode(<String, dynamic>{
         'thread_id': widget.id,
         'message': _message,
       }),
@@ -44,39 +49,40 @@ class _NewPostState extends State<NewPost> {
       _showLoader = false;
       // If the server did return a 200 OK response,
       // then parse the JSON.
-                      _scaffoldKey.currentState.showSnackBar(
-  SnackBar(
-    content: Text('Post Created Successfully', 
-    style: TextStyle(fontSize: 15.0, 
-    color: Colors.white, fontWeight: FontWeight.w300, ))
-    ,
-    behavior: SnackBarBehavior.floating,
-    backgroundColor: Color(0xff1281dd),
-    elevation: 0.0,
-  ));
-        Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ThreadInfo(forumData: widget.forumData,
-          title: widget.title),
-        ),
-        (Route<dynamic> route) => false
-      );
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('Post Created Successfully',
+            style: TextStyle(
+              fontSize: 15.0,
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+            )),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Color(0xff1281dd),
+        elevation: 0.0,
+      ));
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ThreadInfo(forumData: widget.forumData, title: widget.title),
+          ),
+          (Route<dynamic> route) => false);
     } else {
       _showLoader = false;
       // If the server did not return a 200 OK response,
       // then throw an exception.
-                   _scaffoldKey.currentState.showSnackBar(
-  SnackBar(
-    content: Text('Failed to post message', 
-    style: TextStyle(fontSize: 15.0, 
-    color: Colors.white, fontWeight: FontWeight.w300, ))
-    ,
-    action: SnackBarAction(label: 'RETRY', onPressed: postThread),
-  //  behavior: SnackBarBehavior.floating,
-    backgroundColor: Colors.red,
-    elevation: 0.0,
-  ));
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('Failed to post message',
+            style: TextStyle(
+              fontSize: 15.0,
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+            )),
+        action: SnackBarAction(label: 'RETRY', onPressed: postThread),
+        //  behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.red,
+        elevation: 0.0,
+      ));
       //throw Exception('Failed to load post thread');
     }
   }
@@ -91,7 +97,6 @@ class _NewPostState extends State<NewPost> {
     if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to our variables
       _formKey.currentState.save();
-
     } else {
 //    If all data are not valid then start auto validation.
       setState(() {
@@ -103,7 +108,7 @@ class _NewPostState extends State<NewPost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       key: _scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(widget.title),
       ),

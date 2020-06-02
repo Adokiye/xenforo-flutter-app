@@ -8,10 +8,13 @@ import 'package:xenforo/helpers/key.dart';
 import 'package:xenforo/components/emptyData/index.dart';
 import 'package:xenforo/components/loader.dart';
 import 'package:xenforo/components/buttons/floatingButton.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:xenforo/screens/newThread.dart';
 
 class ForumThread extends StatefulWidget {
   final int id;
-  ForumThread({Key key, this.title, this.id}) : super(key: key);
+  ForumThread({Key key, @required this.title, @required this.id})
+      : super(key: key);
 
   final String title;
 
@@ -26,7 +29,7 @@ class _ForumThreadState extends State<ForumThread> {
 
   Future<dynamic> fetchForumThread() async {
     final response = await http.get(
-      url + 'forums/'+widget.id.toString()+'?with_threads=true',
+      url + 'forums/' + widget.id.toString() + '?with_threads=true',
       headers: <String, String>{
         'XF-Api-Key': apiKey,
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -38,12 +41,11 @@ class _ForumThreadState extends State<ForumThread> {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      print(json
-          .decode(response.body)['threads']);
+      print(json.decode(response.body)['threads']);
       List<ForumContent> tester = List();
-      for(var i =0;i<json.decode(response.body)['threads'].length;i++){
-       tester.add(ForumContent.fromMap(json
-          .decode(response.body)['threads'][i]));
+      for (var i = 0; i < json.decode(response.body)['threads'].length; i++) {
+        tester.add(
+            ForumContent.fromMap(json.decode(response.body)['threads'][i]));
       }
       return tester;
     } else {
@@ -77,32 +79,42 @@ class _ForumThreadState extends State<ForumThread> {
         title: Text(widget.title),
       ),
       body: FutureBuilder(
-          future: futureForums,
-          builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.none &&
-            snapshot.hasData == null) {
-              //print('project snapshot data is: ${projectSnap.data}');
-              return EmptyData(title: 'Threads for '+widget.title);
-            }
-            if (snapshot.hasData) {
-             // print(jsonDecode(snapshot.data[0]));
-              return new ListView.builder(
-                itemBuilder: (BuildContext context, int index){
-               //   print(Forum(title: snapshot.data));
-                 return new ThreadForumBox(
-                  forumData: snapshot.data[index]);
-                },
-                itemCount: snapshot.data.length,
-                shrinkWrap: true,
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            // By default, show a loading spinner.
-            return Loader();
-          },
-        ),
-         floatingActionButton: FloatingButton(onPressed: (){},),
+        future: futureForums,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none &&
+              snapshot.hasData == null) {
+            //print('project snapshot data is: ${projectSnap.data}');
+            return EmptyData(title: 'Threads for ' + widget.title);
+          }
+          if (snapshot.hasData) {
+            // print(jsonDecode(snapshot.data[0]));
+            return new ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                //   print(Forum(title: snapshot.data));
+                return new ThreadForumBox(forumData: snapshot.data[index]);
+              },
+              itemCount: snapshot.data.length,
+              shrinkWrap: true,
+            );
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          // By default, show a loading spinner.
+          return Loader();
+        },
+      ),
+      floatingActionButton: FloatingButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: NewThread(
+                    title: widget.title,
+                    id: widget.id,
+                  )));
+        },
+      ),
     );
   }
 }

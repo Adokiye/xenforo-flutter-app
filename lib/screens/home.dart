@@ -38,12 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      print(json
-          .decode(response.body)['nodes']);
+      print(json.decode(response.body)['nodes']);
       List<Forum> tester = List();
-      for(var i =0;i<json.decode(response.body)['nodes'].length;i++){
-       tester.add(Forum.fromMap(json
-          .decode(response.body)['nodes'][i]));
+      for (var i = 0; i < json.decode(response.body)['nodes'].length; i++) {
+        tester.add(Forum.fromMap(json.decode(response.body)['nodes'][i]));
       }
       return tester;
     } else {
@@ -86,70 +84,74 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Xenforo Forum'),
       ),
       body: FutureBuilder(
-          future: futureForums,
-          builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.none &&
-            snapshot.hasData == null) {
-              //print('project snapshot data is: ${projectSnap.data}');
-              return EmptyData(title: 'Forums');
-            }
-            if (snapshot.hasData) {
-             // print(jsonDecode(snapshot.data[0]));
-              return new ListView.builder(
-                itemBuilder: (BuildContext context, int index){
-               //   print(Forum(title: snapshot.data));
-                 return new BriefForumBox(
-                  forumData: snapshot.data[index]);
-                },
-                itemCount: snapshot.data.length,
-                shrinkWrap: true,
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            // By default, show a loading   spinner.
-            return Loader();  
-          },
-        ),
-      
+        future: futureForums,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none &&
+              snapshot.hasData == null) {
+            //print('project snapshot data is: ${projectSnap.data}');
+            return EmptyData(title: 'Forums');
+          }
+          if (snapshot.hasData) {
+            // print(jsonDecode(snapshot.data[0]));
+            return new ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                //   print(Forum(title: snapshot.data));
+                return new BriefForumBox(forumData: snapshot.data[index]);
+              },
+              itemCount: snapshot.data.length,
+              shrinkWrap: true,
+            );
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          // By default, show a loading   spinner.
+          return Loader();
+        },
+      ),
       drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.symmetric(vertical:10.0),
+          padding: EdgeInsets.symmetric(vertical: 10.0),
           children: <Widget>[
             DrawerHeader(
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Center(
-                child: Text('Xenforo Forum', 
+                  child: Text(
+                'Xenforo Forum',
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
-                
-                )),
+              )),
               decoration: BoxDecoration(
-             //   color: Colors.blue,
-              ),
+                  //   color: Colors.blue,
+                  ),
             ),
             ListTile(
-              title: Text('Forums', style: TextStyle(fontSize: 14.0),),
+              title: Text(
+                'Forums',
+                style: TextStyle(fontSize: 14.0),
+              ),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
-              ListTile(
-              title: Text('Conversations', style: TextStyle(fontSize: 14.0),),
+            ListTile(
+              title: Text(
+                'Conversations',
+                style: TextStyle(fontSize: 14.0),
+              ),
               onTap: () {
-                      Navigator.push(
-                                            context,
-                                            PageTransition(
-                                                type: PageTransitionType
-                                                    .rightToLeft,
-                                                child: Conversations()));
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: Conversations()));
               },
             ),
-             ListTile(
-              title: Text('Log out', style: TextStyle(fontSize: 14.0),),
-              onTap: () {
-                    
-              },
+            ListTile(
+              title: Text(
+                'Log out',
+                style: TextStyle(fontSize: 14.0),
+              ),
+              onTap: () {},
             ),
           ],
         ),

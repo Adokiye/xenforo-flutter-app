@@ -24,11 +24,9 @@ class _LayoutState extends State<Layout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(backgroundColor: Color(0xff007C89),))
-      );
+        body: Center(
+            child: CircularProgressIndicator(
+      backgroundColor: Color(0xff007C89),
+    )));
   }
 }
-
-
-

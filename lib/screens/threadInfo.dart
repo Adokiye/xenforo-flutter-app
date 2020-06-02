@@ -11,6 +11,8 @@ import 'package:xenforo/components/postBox/index.dart';
 import 'package:xenforo/components/emptyData/index.dart';
 import 'package:xenforo/components/loader.dart';
 import 'package:xenforo/components/buttons/floatingButton.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:xenforo/screens/newPost.dart';
 
 class ThreadInfo extends StatefulWidget {
   final int id;
@@ -30,7 +32,7 @@ class _ThreadInfoState extends State<ThreadInfo> {
 
   Future<dynamic> fetchThreadInfo() async {
     final response = await http.get(
-      url + 'threads/'+widget.id.toString()+'/posts',
+      url + 'threads/' + widget.id.toString() + '/posts',
       headers: <String, String>{
         'XF-Api-Key': apiKey,
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -39,11 +41,10 @@ class _ThreadInfoState extends State<ThreadInfo> {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      print(json
-          .decode(response.body)['posts']);
+      print(json.decode(response.body)['posts']);
       List<Post> tester = List();
-      for(var i =0;i<json.decode(response.body)['posts'].length;i++){
-       tester.add(Post.fromMap(json.decode(response.body)['posts'][i]));
+      for (var i = 0; i < json.decode(response.body)['posts'].length; i++) {
+        tester.add(Post.fromMap(json.decode(response.body)['posts'][i]));
       }
       return tester;
     } else {
@@ -77,39 +78,54 @@ class _ThreadInfoState extends State<ThreadInfo> {
         title: Text(widget.title),
       ),
       body: FutureBuilder(
-          future: futurePosts,
-          builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.none &&
-            snapshot.hasData == null) {
-              //print('project snapshot data is: ${projectSnap.data}');
-              return EmptyData(title: 'Posts for '+widget.title);
-            }
-            if (snapshot.hasData) {
-             // print(jsonDecode(snapshot.data[0]));
-              return new Stack(
-                children:<Widget>[
-                  Column(
-                children:<Widget>[
-                  ThreadHeader(forumData: widget.forumData),
-                  ListView.builder(
-                itemBuilder: (BuildContext context, int index){
-               //   print(Post(title: snapshot.data));
-                 return new PostBox(
-                  post: snapshot.data[index]);
-                },
-                itemCount: snapshot.data.length,
-                shrinkWrap: true,
-              )]),
-              Positioned(bottom: 10,child: FullButton(title: 'POST', onPressed: (){},))
-              ]);
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            // By default, show a loading spinner.
-            return Loader();
-          },
-        ),
-       floatingActionButton: FloatingButton(onPressed: (){},),
+        future: futurePosts,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none &&
+              snapshot.hasData == null) {
+            //print('project snapshot data is: ${projectSnap.data}');
+            return EmptyData(title: 'Posts for ' + widget.title);
+          }
+          if (snapshot.hasData) {
+            // print(jsonDecode(snapshot.data[0]));
+            return new Stack(children: <Widget>[
+              Column(children: <Widget>[
+                ThreadHeader(forumData: widget.forumData),
+                ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    //   print(Post(title: snapshot.data));
+                    return new PostBox(post: snapshot.data[index]);
+                  },
+                  itemCount: snapshot.data.length,
+                  shrinkWrap: true,
+                )
+              ]),
+              Positioned(
+                  bottom: 10,
+                  child: FullButton(
+                    title: 'POST',
+                    onPressed: () {},
+                  ))
+            ]);
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          // By default, show a loading spinner.
+          return Loader();
+        },
+      ),
+      floatingActionButton: FloatingButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: NewPost(
+                    title: widget.forumData.title,
+                    id: widget.forumData.id,
+                    forumData: widget.forumData,
+                  )));
+        },
+      ),
     );
   }
 }
