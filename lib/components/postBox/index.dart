@@ -45,20 +45,28 @@ class _PostBoxState extends State<PostBox> {
               trailing: Text(
                    DateTime.fromMicrosecondsSinceEpoch(widget.post.date).day.toString()+'-'+
         DateTime.fromMicrosecondsSinceEpoch(widget.post.date).month.toString()+'-'+
-        DateTime.fromMicrosecondsSinceEpoch(widget.post.date).year.toString()
+        DateTime.fromMicrosecondsSinceEpoch(widget.post.date).year.toString(),
                 style: TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 11,
                 ),
               ),
             ),
-
-            Image.asset(
-              "${widget.img}",
-              height: 170,
+            Container(
               width: MediaQuery.of(context).size.width,
-              fit: BoxFit.cover,
-            ),
+              margin: EdgeInsets.only(top: 5.0),
+              padding: EdgeInsets.only(bottom: 5.0),
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(width: 1.0, color: Color(0xffc4c4c4)))),
+                   child: Text(widget.post.message, textAlign: TextAlign.justify,
+                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),)
+              ),
+            // Image.asset(
+            //   "${widget.img}",
+            //   height: 170,
+            //   width: MediaQuery.of(context).size.width,
+            //   fit: BoxFit.cover,
+            // ),
 
           ],
         ),
