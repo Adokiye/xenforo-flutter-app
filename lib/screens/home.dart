@@ -10,6 +10,8 @@ import 'package:xenforo/screens/conversations.dart';
 import 'package:xenforo/components/emptyData/index.dart';
 import 'package:xenforo/components/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:xenforo/providers/user.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -28,28 +30,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<String> _id;
   String stateText = '';
   var stateFunction;
-
-   Future<void> _checkLoggedIn() async {
-    final SharedPreferences prefs = await _prefs;
-    final String id = (prefs.getString('id') ?? '');
-    final bool onCheck = (prefs.getBool('on'));
-    if(id != ''){
-     setState((){
-       stateText = 'Log out';
-       stateFunction = (){
-             setState(() {
-      _id = prefs.setString("id", '').then((bool success) {
-        
-      });
-    });
-       }
-     });
-    }else if(onCheck){
-
-    }else{
-
-    }
-  }
 
   Future<dynamic> fetchForums() async {
     final response = await http.get(
@@ -86,6 +66,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<UserModel>(context);
+    if(appState.id != ''){
+      stateText = 'Logout';
+      stateFunction = (){
+        appState.setId('');
+      };
+    
+    }else{
+      stateText = 'Login';
+      stateFunction = (){
+
+      };
+    }
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,

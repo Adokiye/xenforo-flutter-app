@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:xenforo/helpers/color.dart';
 import 'package:xenforo/screens/home.dart';
+import 'package:provider/provider.dart';
+import 'package:xenforo/providers/user.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(ChangeNotifierProvider(
+    create: (_) => new UserModel(), child: MyApp()));
 
 class MyApp extends StatelessWidget {
   @override
