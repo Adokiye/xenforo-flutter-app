@@ -34,11 +34,37 @@ class _ThreadForumBoxState extends State<ThreadForumBox> {
       ),
       child: new ListTile(
         title: new Text(widget.forumData.title, style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16.0)),
-        subtitle: new Text('Last Post date: '+
+        subtitle: Row(
+          children:<Widget>[
+            Container(
+              margin: EdgeInsets.only(right: 10.0),
+              child:   Icon(Icons.calendar_view_day,size: 16.0,
+            color: Color(0xff1281dd),),
+            ),
+            new Text(
         DateTime.fromMicrosecondsSinceEpoch(widget.forumData.date).day.toString()+'-'+
         DateTime.fromMicrosecondsSinceEpoch(widget.forumData.date).month.toString()+'-'+
         DateTime.fromMicrosecondsSinceEpoch(widget.forumData.date).year.toString()
         , style: TextStyle(color: Colors.black, fontSize: 16.0),),
+        Spacer(),
+         Container(
+              margin: EdgeInsets.only(right: 10.0),
+              child:   Icon(Icons.schedule,size: 16.0,
+            color: Color(0xff1281dd),),
+            ),
+            new Text(
+        widget.forumData.viewCount.toString()
+        , style: TextStyle(color: Colors.black, fontSize: 16.0),),
+         Spacer(),
+         Container(
+              margin: EdgeInsets.only(right: 10.0),
+              child:   Icon(Icons.textsms,size: 16.0,
+            color: Color(0xff1281dd),),
+            ),
+            new Text(
+        widget.forumData.replyCount.toString()
+        , style: TextStyle(color: Colors.black, fontSize: 16.0),),
+        ]),
         // leading: new Icon(
         //   Icons.add_circle,
         //   color: Colors.black,
