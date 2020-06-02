@@ -5,6 +5,7 @@ import 'package:xenforo/models/forumContent.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:xenforo/components/loader.dart';
 
 class Layout extends StatefulWidget {
   Layout({Key key, this.title}) : super(key: key);

@@ -8,6 +8,7 @@ import 'package:xenforo/helpers/key.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:xenforo/screens/conversations.dart';
 import 'package:xenforo/components/emptyData/index.dart';
+import 'package:xenforo/components/loader.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -107,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return Text("${snapshot.error}");
             }
             // By default, show a loading   spinner.
-            return CircularProgressIndicator();  
+            return Loader();  
           },
         ),
       

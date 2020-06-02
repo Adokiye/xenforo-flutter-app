@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Loader extends StatefulWidget {  
   final String title;
-  Loader({Key key, @required this.title}) : super(key: key);
+  Loader({Key key, this.title}) : super(key: key);
 
 
   @override

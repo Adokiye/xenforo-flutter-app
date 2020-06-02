@@ -9,6 +9,7 @@ import 'package:xenforo/components/threadHeader/threadHeader.dart';
 import 'package:xenforo/components/buttons/fullButton/index.dart';
 import 'package:xenforo/components/postBox/index.dart';
 import 'package:xenforo/components/emptyData/index.dart';
+import 'package:xenforo/components/loader.dart';
 
 class ThreadInfo extends StatefulWidget {
   final int id;
@@ -104,7 +105,7 @@ class _ThreadInfoState extends State<ThreadInfo> {
               return Text("${snapshot.error}");
             }
             // By default, show a loading spinner.
-            return CircularProgressIndicator();
+            return Loader();
           },
         ),
       
