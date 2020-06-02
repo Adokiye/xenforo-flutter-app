@@ -51,6 +51,15 @@ class _ThreadHeaderState extends State<ThreadHeader> {
             new Text(
         widget.forumData.replyCount.toString()
         , style: TextStyle(color: Colors.black, fontSize: 16.0),),
+           Spacer(),
+         Container(
+              margin: EdgeInsets.only(right: 10.0),
+              child:   Icon(Icons.face,size: 16.0,
+            color: Color(0xff1281dd),),
+            ),
+            new Text(
+        widget.forumData.user.username.toString()
+        , style: TextStyle(color: Colors.black, fontSize: 16.0),),
         ]),
       
     ));
