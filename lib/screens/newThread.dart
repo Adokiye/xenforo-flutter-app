@@ -24,9 +24,11 @@ class _NewThreadState extends State<NewThread> {
   String _title;
   String _message;
   Future<dynamic> newThread;
+  bool _showLoader = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
    Future<dynamic> postThread() async {
+    _showLoader = true;
     final response = await http.post(
       url + 'threads/'+widget.id.toString()+'/posts',
       headers: <String, String>{
@@ -40,6 +42,7 @@ class _NewThreadState extends State<NewThread> {
       }),
     );
     if (response.statusCode == 200) {
+      _showLoader = false;
       // If the server did return a 200 OK response,
       // then parse the JSON.
                       _scaffoldKey.currentState.showSnackBar(
@@ -61,6 +64,7 @@ class _NewThreadState extends State<NewThread> {
         (Route<dynamic> route) => false
       );
     } else {
+      _showLoader = false;
       // If the server did not return a 200 OK response,
       // then throw an exception.
                    _scaffoldKey.currentState.showSnackBar(
@@ -121,6 +125,9 @@ class _NewThreadState extends State<NewThread> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
+        _showLoader ? Container(
+          
+          child:Loader()) : Container(),
         new Container(
             margin:
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),

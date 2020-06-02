@@ -18,11 +18,14 @@ class _LoaderState extends State<Loader> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CircularProgressIndicator(
+      child: Container(
+                                            margin: EdgeInsets.only(
+                                                top: 10.0, bottom: 10.0),
+                                            child:CircularProgressIndicator(
     backgroundColor: Colors.cyanAccent,
     valueColor: new AlwaysStoppedAnimation<Color>(Color(0xff1281dd)),
   )
-    );
+     ) );
   }
 }
 
