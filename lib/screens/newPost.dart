@@ -4,38 +4,37 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xenforo/components/loader.dart';
-import 'package:xenforo/components/buttons/fullButton/index.dart';
+import 'package:xenforo/components/buttons/borderButton/index.dart';
 import 'package:flutter/services.dart';
 import 'package:xenforo/screens/home.dart';
 
-class NewThread extends StatefulWidget {
-  NewThread({Key key, @required this.id}) : super(key: key);
+class NewPost extends StatefulWidget {
+  NewPost({Key key, @required this.id, @required this.title}) : super(key: key);
   final int id;
+  final String title;
 
   @override
-  _NewThreadState createState() => _NewThreadState();
+  _NewPostState createState() => _NewPostState();
 }
 
-class _NewThreadState extends State<NewThread> {
+class _NewPostState extends State<NewPost> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
-  String _title;
   String _message;
-  Future<dynamic> newThread;
+  Future<dynamic> newPost;
   bool _showLoader = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
    Future<dynamic> postThread() async {
     _showLoader = true;
     final response = await http.post(
-      url + 'threads/',
+      url + 'posts/',
       headers: <String, String>{
         'XF-Api-Key': apiKey,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
         body: jsonEncode(<String, dynamic>{
-        'node_id': widget.id,
-        'title': _title,
+        'thread_id': widget.id,
         'message': _message,
       }),
     );
@@ -45,7 +44,7 @@ class _NewThreadState extends State<NewThread> {
       // then parse the JSON.
                       _scaffoldKey.currentState.showSnackBar(
   SnackBar(
-    content: Text('Thread Created Successfully', 
+    content: Text('Post Created Successfully', 
     style: TextStyle(fontSize: 15.0, 
     color: Colors.white, fontWeight: FontWeight.w300, ))
     ,
@@ -67,7 +66,7 @@ class _NewThreadState extends State<NewThread> {
       // then throw an exception.
                    _scaffoldKey.currentState.showSnackBar(
   SnackBar(
-    content: Text('Failed to post thread', 
+    content: Text('Failed to post message', 
     style: TextStyle(fontSize: 15.0, 
     color: Colors.white, fontWeight: FontWeight.w300, ))
     ,
@@ -83,7 +82,7 @@ class _NewThreadState extends State<NewThread> {
   @override
   void initState() {
     super.initState();
-    newThread = postThread();
+    newPost = postThread();
   }
 
   void post() {
@@ -104,7 +103,7 @@ class _NewThreadState extends State<NewThread> {
     return Scaffold(
        key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('New Thread'),
+        title: Text(widget.title),
       ),
       body: new SingleChildScrollView(
         child: new Container(
@@ -137,51 +136,12 @@ class _NewThreadState extends State<NewThread> {
               ),
             )),
             child: new TextFormField(
-              decoration: new InputDecoration(
-                labelText: "Title",
-                fillColor: Colors.white,
-                hintText: 'Enter title of Thread',
-                hintStyle: TextStyle(
-                  fontSize: 13.0,
-                  color: const Color(0xffC4C4C4),
-                ),
-                border: InputBorder.none,
-              ),
-              validator: (val) {
-                if (val.length == 0) {
-                  return "A title is required for the Thread";
-                } else {
-                  return null;
-                }
-              },
-              style: new TextStyle(
-                fontSize: 16.0,
-                color: Colors.black,
-                //    height: 1.0,
-              ),
-              onSaved: (String val) {
-                _title = val;
-              },
-            )),
-        new Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
-            width: MediaQuery.of(context).size.width * 0.90,
-            decoration: BoxDecoration(
-                border: Border(
-              bottom: BorderSide(
-                //                    <--- top side
-                color: const Color(0xffC4C4C4),
-                width: 1.0,
-              ),
-            )),
-            child: new TextFormField(
               keyboardType: TextInputType.multiline,
               maxLines: null,
               decoration: new InputDecoration(
                 labelText: "Message",
                 fillColor: Colors.white,
-                hintText: 'Enter message of first post of the thread',
+                hintText: 'Enter message of post',
                 hintStyle: TextStyle(
                   fontSize: 13.0,
                   color: const Color(0xffC4C4C4),
@@ -190,7 +150,7 @@ class _NewThreadState extends State<NewThread> {
               ),
               validator: (val) {
                 if (val.length == 0) {
-                  return "This thread requires a message for it's first post";
+                  return "Message is required for this post";
                 } else {
                   return null;
                 }
@@ -206,7 +166,7 @@ class _NewThreadState extends State<NewThread> {
             )),
         Container(
             margin: EdgeInsets.only(top: 10.0),
-            child: FullButton(
+            child: BorderButton(
               title: 'POST',
               onPressed: post,
             ))

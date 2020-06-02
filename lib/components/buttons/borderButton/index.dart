@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class FullButton extends StatefulWidget {
+class BorderButton extends StatefulWidget {
   final String title;
   final GestureTapCallback onPressed;
-  FullButton({Key key, @required this.title, @required this.onPressed}) : super(key: key);
+  BorderButton({Key key, @required this.title, @required this.onPressed}) : super(key: key);
 
   @override
-  _FullButtonState createState() => _FullButtonState();
+  _BorderButtonState createState() => _BorderButtonState();
 }
 
-class _FullButtonState extends State<FullButton> {
+class _BorderButtonState extends State<BorderButton> {
   @override
   void initState() {
     super.initState();
@@ -21,7 +21,7 @@ class _FullButtonState extends State<FullButton> {
       child: Material(
         shape: RoundedRectangleBorder(
   borderRadius: BorderRadius.circular(5.0),
-  // side: BorderSide(color: Colors.red)
+   side: BorderSide(color: Color(0xff1281dd))
 ),
       color: Color(0xff1281dd),
       child: InkWell(
