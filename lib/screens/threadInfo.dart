@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:xenforo/components/threadForumBox/index.dart';
 import 'package:xenforo/models/forumContent.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xenforo/helpers/key.dart';
+import 'package:xenforo/models/post.dart';
 
 class ThreadInfo extends StatefulWidget {
   final int id;
@@ -18,42 +18,38 @@ class ThreadInfo extends StatefulWidget {
 
 class _ThreadInfoState extends State<ThreadInfo> {
   final GlobalKey _scaffoldKey = new GlobalKey();
-  Future<dynamic> futureForums;
-  List<ForumContent> forums;
+  Future<dynamic> futurePosts;
+  List<Post> posts;
 
   Future<dynamic> fetchThreadInfo() async {
     final response = await http.get(
-      url + 'threads/'+widget.id.toString()+'?with_posts=true',
+      url + 'threads/'+widget.id.toString()+'/posts',
       headers: <String, String>{
         'XF-Api-Key': apiKey,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      // body: jsonEncode(<String, String>{
-      //   'title': title,
-      // }),
     );
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(json
-          .decode(response.body)['threads']);
-      List<ForumContent> tester = List();
-      for(var i =0;i<json.decode(response.body)['threads'].length;i++){
-       tester.add(ForumContent.fromMap(json
-          .decode(response.body)['threads'][i]));
+          .decode(response.body)['posts']);
+      List<Post> tester = List();
+      for(var i =0;i<json.decode(response.body)['posts'].length;i++){
+       tester.add(Post.fromMap(json.decode(response.body)['posts'][i]));
       }
       return tester;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load forums');
+      throw Exception('Failed to load posts');
     }
   }
 
   @override
   void initState() {
     super.initState();
-    futureForums = fetchThreadInfo();
+    futurePosts = fetchThreadInfo();
   }
 
   @override
@@ -74,20 +70,20 @@ class _ThreadInfoState extends State<ThreadInfo> {
         title: Text(widget.title),
       ),
       body: FutureBuilder(
-          future: futureForums,
+          future: futurePosts,
           builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.none &&
             snapshot.hasData == null) {
               //print('project snapshot data is: ${projectSnap.data}');
-              return Center(child: Text('No Forums available'));
+              return Center(child: Text('No Posts available'));
             }
             if (snapshot.hasData) {
              // print(jsonDecode(snapshot.data[0]));
               return new ListView.builder(
                 itemBuilder: (BuildContext context, int index){
-               //   print(Forum(title: snapshot.data));
-                 return new ThreadForumBox(
-                  forumData: snapshot.data[index]);
+               //   print(Post(title: snapshot.data));
+                //  return new ThreadPostBox(
+                //   forumData: snapshot.data[index]);
                 },
                 itemCount: snapshot.data.length,
                 shrinkWrap: true,

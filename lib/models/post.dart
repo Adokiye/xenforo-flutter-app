@@ -1,4 +1,5 @@
 import 'forumContent.dart';
+import 'user.dart';
 class Post {
   String message;
   int date;
@@ -7,8 +8,9 @@ class Post {
   int reactionScore;
   int attachCount;
   ForumContent forum;
+  User user;
   Post({this.message, this.date, this.id, this.reactionScore, this.attachCount, this.editDate,
-  this.forum});
+  this.forum, this.user});
    factory Post.fromJson(Map<String,dynamic> json) {
     return Post(
       message: json['message'],
@@ -17,7 +19,8 @@ class Post {
       id: json['post_id'],
       reactionScore: json['reaction_count'],
       attachCount: json['attach_count'],
-      forum: json['Thread']
+      forum: json['Thread'],
+      user: json['User']
     );
   }
     Post.fromMap(Map<String, dynamic> map) {
@@ -28,5 +31,6 @@ class Post {
     this.reactionScore = map['reaction_count'];
     this.forum = map['Thread'];
     this.attachCount = map['attach_count'];
+    this.user = map['User'];
   }
 }

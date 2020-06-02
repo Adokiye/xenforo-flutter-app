@@ -38,7 +38,7 @@ class _ThreadForumBoxState extends State<ThreadForumBox> {
           children:<Widget>[
             Container(
               margin: EdgeInsets.only(right: 10.0),
-              child:   Icon(Icons.calendar_view_day,size: 16.0,
+              child:   Icon(Icons.event,size: 16.0,
             color: Color(0xff1281dd),),
             ),
             new Text(
@@ -49,7 +49,7 @@ class _ThreadForumBoxState extends State<ThreadForumBox> {
         Spacer(),
          Container(
               margin: EdgeInsets.only(right: 10.0),
-              child:   Icon(Icons.schedule,size: 16.0,
+              child:   Icon(Icons.visibility,size: 16.0,
             color: Color(0xff1281dd),),
             ),
             new Text(
