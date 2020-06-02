@@ -38,7 +38,7 @@ class _ThreadForumBoxState extends State<ThreadForumBox> {
         DateTime.fromMicrosecondsSinceEpoch(widget.forumData.date).day.toString()+'-'+
         DateTime.fromMicrosecondsSinceEpoch(widget.forumData.date).month.toString()+'-'+
         DateTime.fromMicrosecondsSinceEpoch(widget.forumData.date).year.toString()
-        , style: TextStyle(color: Colors.black),),
+        , style: TextStyle(color: Colors.black, fontSize: 16.0),),
         // leading: new Icon(
         //   Icons.add_circle,
         //   color: Colors.black,

@@ -61,15 +61,15 @@ class _MyHomePageState extends State<MyHomePage> {
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        // leading: IconButton(
-        //   icon: Icon(
-        //     Icons.menu,
-        //     color: Colors.white,
-        //   ),
-        //   onPressed: () {
-        //     Scaffold.of(context).openDrawer();
-        //   },
-        // ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.menu,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        ),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(
@@ -103,40 +103,34 @@ class _MyHomePageState extends State<MyHomePage> {
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
+            // By default, show a loading   spinner.
+            return CircularProgressIndicator();  
           },
         ),
       
       drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.symmetric(vertical:10.0),
           children: <Widget>[
             DrawerHeader(
-              child: Text('Xenforo Forum'),
-            //   decoration: BoxDecoration(
-            //  //   color: Colors.blue,
-            //   ),
+              child: Text('Xenforo Forum', style: TextStyle(color: Colors.white),),
+              decoration: BoxDecoration(
+             //   color: Colors.blue,
+              ),
             ),
             ListTile(
-              title: Text('Item 1'),
+              title: Text('Forums', style: TextStyle(fontSize: 14.0),),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.pop(context);
               },
             ),
-            // ListTile(
-            //   title: Text('Item 2'),
-            //   onTap: () {
-            //     // Update the state of the app
-            //     // ...
-            //     // Then close the drawer
-            //     Navigator.pop(context);
-            //   },
-            // ),
+              ListTile(
+              title: Text('Conversations', style: TextStyle(fontSize: 14.0),),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
