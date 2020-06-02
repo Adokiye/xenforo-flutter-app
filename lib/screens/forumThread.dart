@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xenforo/helpers/key.dart';
 import 'package:xenforo/components/emptyData/index.dart';
+import 'package:xenforo/components/loader.dart';
 
 class ForumThread extends StatefulWidget {
   final int id;
