@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:xenforo/helpers/key.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:xenforo/screens/conversations.dart';
+import 'package:xenforo/components/emptyData/index.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -89,10 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     if (snapshot.connectionState == ConnectionState.none &&
             snapshot.hasData == null) {
               //print('project snapshot data is: ${projectSnap.data}');
-              return Center(child: Text('No Forums available', 
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black,
-              fontSize: 25.0, fontWeight: FontWeight.w400),));
+              return EmptyData(title: 'Forums');
             }
             if (snapshot.hasData) {
              // print(jsonDecode(snapshot.data[0]));

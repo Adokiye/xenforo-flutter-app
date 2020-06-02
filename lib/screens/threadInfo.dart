@@ -8,6 +8,7 @@ import 'package:xenforo/models/post.dart';
 import 'package:xenforo/components/threadHeader/threadHeader.dart';
 import 'package:xenforo/components/buttons/fullButton/index.dart';
 import 'package:xenforo/components/postBox/index.dart';
+import 'package:xenforo/components/emptyData/index.dart';
 
 class ThreadInfo extends StatefulWidget {
   final int id;
@@ -79,7 +80,7 @@ class _ThreadInfoState extends State<ThreadInfo> {
                     if (snapshot.connectionState == ConnectionState.none &&
             snapshot.hasData == null) {
               //print('project snapshot data is: ${projectSnap.data}');
-              return Center(child: Text('No Posts available'));
+              return EmptyData(title: 'Posts for '+widget.title);
             }
             if (snapshot.hasData) {
              // print(jsonDecode(snapshot.data[0]));

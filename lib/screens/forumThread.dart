@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xenforo/helpers/key.dart';
+import 'package:xenforo/components/emptyData/index.dart';
 
 class ForumThread extends StatefulWidget {
   final int id;
@@ -79,7 +80,7 @@ class _ForumThreadState extends State<ForumThread> {
                     if (snapshot.connectionState == ConnectionState.none &&
             snapshot.hasData == null) {
               //print('project snapshot data is: ${projectSnap.data}');
-              return Center(child: Text('No Forums available'));
+              return EmptyData(title: 'Threads for '+widget.title);
             }
             if (snapshot.hasData) {
              // print(jsonDecode(snapshot.data[0]));
