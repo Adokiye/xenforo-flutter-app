@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:xenforo/components/loader.dart';
 import 'package:xenforo/components/buttons/fullButton/index.dart';
 import 'package:flutter/services.dart';
+import 'package:xenforo/screens/home.dart';
 
 class NewThread extends StatefulWidget {
   NewThread({Key key, @required this.id}) : super(key: key);
@@ -51,7 +52,14 @@ class _NewThreadState extends State<NewThread> {
     backgroundColor: Color(0xff1281dd),
     elevation: 0.0,
   ));
-    
+        Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyHomePage(
+          ),
+        ),
+        (Route<dynamic> route) => false
+      );
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.

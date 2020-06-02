@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () => {},
           ),
         ],
-        title: Text(widget.title),
+        title: Text('Xenforo Forum'),
       ),
       body: FutureBuilder(
           future: futureForums,
