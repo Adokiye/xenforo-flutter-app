@@ -23,6 +23,7 @@ class _NewThreadState extends State<NewThread> {
   String _title;
   String _message;
   Future<dynamic> newThread;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
    Future<dynamic> postThread() async {
     final response = await http.post(
@@ -40,17 +41,32 @@ class _NewThreadState extends State<NewThread> {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      print(json
-          .decode(response.body)['posts']);
-      List<Post> tester = List();
-      for(var i =0;i<json.decode(response.body)['posts'].length;i++){
-       tester.add(Post.fromMap(json.decode(response.body)['posts'][i]));
-      }
-      return tester;
+                      _scaffoldKey.currentState.showSnackBar(
+  SnackBar(
+    content: Text('Thread Created Successfully', 
+    style: TextStyle(fontSize: 15.0, 
+    color: Colors.white, fontWeight: FontWeight.w300, ))
+    ,
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Color(0xff1281dd),
+    elevation: 0.0,
+  ));
+    
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load posts');
+                   _scaffoldKey.currentState.showSnackBar(
+  SnackBar(
+    content: Text('Failed to load post thread', 
+    style: TextStyle(fontSize: 15.0, 
+    color: Colors.white, fontWeight: FontWeight.w300, ))
+    ,
+    action: SnackBarAction(label: 'RETRY', onPressed: postThread),
+  //  behavior: SnackBarBehavior.floating,
+    backgroundColor: Colors.red,
+    elevation: 0.0,
+  ));
+      //throw Exception('Failed to load post thread');
     }
   }
 
@@ -76,6 +92,7 @@ class _NewThreadState extends State<NewThread> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       key: _scaffoldKey,
       appBar: AppBar(
         title: Text('New Thread'),
       ),
