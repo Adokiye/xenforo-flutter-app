@@ -22,16 +22,49 @@ class _NewThreadState extends State<NewThread> {
   bool _autoValidate = false;
   String _title;
   String _message;
+  Future<dynamic> newThread;
+
+   Future<dynamic> postThread() async {
+    final response = await http.post(
+      url + 'threads/'+widget.id.toString()+'/posts',
+      headers: <String, String>{
+        'XF-Api-Key': apiKey,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+        body: jsonEncode(<String, dynamic>{
+        'node_id': widget.id,
+        'title': _title,
+        'message': _message,
+      }),
+    );
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(json
+          .decode(response.body)['posts']);
+      List<Post> tester = List();
+      for(var i =0;i<json.decode(response.body)['posts'].length;i++){
+       tester.add(Post.fromMap(json.decode(response.body)['posts'][i]));
+      }
+      return tester;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load posts');
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    newThread = postThread();
   }
 
   void post() {
     if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to our variables
       _formKey.currentState.save();
+
     } else {
 //    If all data are not valid then start auto validation.
       setState(() {
