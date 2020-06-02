@@ -5,6 +5,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xenforo/helpers/key.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:xenforo/screens/conversations.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -114,7 +116,12 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.symmetric(vertical:10.0),
           children: <Widget>[
             DrawerHeader(
-              child: Text('Xenforo Forum', style: TextStyle(color: Colors.white),),
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Center(
+                child: Text('Xenforo Forum', 
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
+                
+                )),
               decoration: BoxDecoration(
              //   color: Colors.blue,
               ),
@@ -128,7 +135,18 @@ class _MyHomePageState extends State<MyHomePage> {
               ListTile(
               title: Text('Conversations', style: TextStyle(fontSize: 14.0),),
               onTap: () {
-                Navigator.pop(context);
+                      Navigator.push(
+                                            context,
+                                            PageTransition(
+                                                type: PageTransitionType
+                                                    .rightToLeft,
+                                                child: Conversations()));
+              },
+            ),
+             ListTile(
+              title: Text('Log out', style: TextStyle(fontSize: 14.0),),
+              onTap: () {
+                    
               },
             ),
           ],
