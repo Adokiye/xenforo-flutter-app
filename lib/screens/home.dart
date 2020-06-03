@@ -24,7 +24,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final GlobalKey _scaffoldKey = new GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Future<dynamic> futureForums;
   List<Forum> forums;
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -55,7 +55,18 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load forums');
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('Failed to load Forums',
+            style: TextStyle(
+              fontSize: 15.0,
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+            )),
+            action: SnackBarAction(label: 'RETRY', onPressed: (){fetchForums();}),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.red,
+        elevation: 0.0,
+      ));
     }
   }
 
@@ -95,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.white,
           ),
           onPressed: () {
-            Scaffold.of(context).openDrawer();
+            _scaffoldKey.currentState.openDrawer();
           },
         ),
         actions: <Widget>[

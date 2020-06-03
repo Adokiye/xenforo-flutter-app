@@ -23,7 +23,7 @@ class ForumThread extends StatefulWidget {
 }
 
 class _ForumThreadState extends State<ForumThread> {
-  final GlobalKey _scaffoldKey = new GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Future<dynamic> futureForums;
   List<ForumContent> forums;
 
@@ -51,7 +51,19 @@ class _ForumThreadState extends State<ForumThread> {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load forums');
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('Failed to load threads',
+            style: TextStyle(
+              fontSize: 15.0,
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+            )),
+            action: SnackBarAction(label: 'RETRY', onPressed: (){fetchForumThread();}),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.red,
+        elevation: 0.0,
+      ));
+    //  throw Exception('Failed to load forums');
     }
   }
 

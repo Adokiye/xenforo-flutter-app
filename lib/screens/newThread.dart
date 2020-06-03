@@ -28,18 +28,16 @@ class _NewThreadState extends State<NewThread> {
 
    Future<dynamic> postThread() async {
     _showLoader = true;
+    print(apiKey);
     final response = await http.post(
-      url + 'threads/',
+      url + 'threads/'+'?title='+_title+
+      '&node_id='+widget.id.toString()+'&message='+_message,
       headers: <String, String>{
         'XF-Api-Key': apiKey,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-        body: jsonEncode(<String, dynamic>{
-        'node_id': widget.id,
-        'title': _title,
-        'message': _message,
-      }),
     );
+    print(response.body.toString());
     if (response.statusCode == 200) {
       setState((){
          _showLoader = false;
@@ -95,7 +93,7 @@ class _NewThreadState extends State<NewThread> {
     if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to our variables
       _formKey.currentState.save();
-
+      postThread();
     } else {
 //    If all data are not valid then start auto validation.
       setState(() {

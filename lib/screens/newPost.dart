@@ -35,15 +35,12 @@ class _NewPostState extends State<NewPost> {
   Future<dynamic> postThread() async {
     _showLoader = true;
     final response = await http.post(
-      url + 'posts/',
+      url + 'posts/?thread_id='+widget.id.toString()+
+      '&message='+_message,
       headers: <String, String>{
         'XF-Api-Key': apiKey,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: jsonEncode(<String, dynamic>{
-        'thread_id': widget.id,
-        'message': _message,
-      }),
     );
     if (response.statusCode == 200) {
        setState((){
@@ -100,6 +97,7 @@ class _NewPostState extends State<NewPost> {
     if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to our variables
       _formKey.currentState.save();
+      postThread();
     } else {
 //    If all data are not valid then start auto validation.
       setState(() {
