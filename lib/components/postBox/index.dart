@@ -29,13 +29,7 @@ class _PostBoxState extends State<PostBox> {
         child: Column(
           children: <Widget>[
             ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Color(0xff1281dd),
-                // backgroundImage: AssetImage(
-                //   "${widget.dp}",
-                // ),
-                child: Icon(Icons.account_circle, size: 28.0,),
-              ),
+              leading: Icon(Icons.account_circle, size: 28.0,),
               contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
               title: Text(
                 "${widget.post.user.username}",

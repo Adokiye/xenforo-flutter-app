@@ -41,7 +41,10 @@ class _NewThreadState extends State<NewThread> {
       }),
     );
     if (response.statusCode == 200) {
-      _showLoader = false;
+      setState((){
+         _showLoader = false;
+      });
+     
       // If the server did return a 200 OK response,
       // then parse the JSON.
                       _scaffoldKey.currentState.showSnackBar(
@@ -63,7 +66,9 @@ class _NewThreadState extends State<NewThread> {
         (Route<dynamic> route) => false
       );
     } else {
-      _showLoader = false;
+       setState((){
+         _showLoader = false;
+      });
       // If the server did not return a 200 OK response,
       // then throw an exception.
                    _scaffoldKey.currentState.showSnackBar(
@@ -84,7 +89,6 @@ class _NewThreadState extends State<NewThread> {
   @override
   void initState() {
     super.initState();
-    newThread = postThread();
   }
 
   void post() {
