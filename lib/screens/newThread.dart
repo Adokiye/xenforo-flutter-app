@@ -210,6 +210,7 @@ class _NewThreadState extends State<NewThread> {
         Container(
             margin: EdgeInsets.only(top: 10.0),
             child: FullButton(
+              isWhite: false,
               title: 'POST',
               onPressed: post,
             ))

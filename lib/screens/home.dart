@@ -84,7 +84,22 @@ class _MyHomePageState extends State<MyHomePage> {
       stateFunction = (){
         appState.setId('');
       };
-    
+         _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('You\'re not logged in',
+            style: TextStyle(
+              fontSize: 15.0,
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+            )),
+            action: SnackBarAction(label: 'GO', onPressed: (){Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeftWithFade,
+              child: Login()));}),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0.0,
+      ));
     }else{
       stateText = 'Login';
       stateFunction = (){
