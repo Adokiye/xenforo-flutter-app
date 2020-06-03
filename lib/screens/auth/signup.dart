@@ -11,6 +11,7 @@ import 'package:xenforo/components/buttons/fullButton/index.dart';
 import 'package:xenforo/screens/home.dart';
 import 'package:provider/provider.dart';
 import 'package:xenforo/providers/user.dart';
+import 'package:xenforo/screens/auth/login.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({Key key, this.title}) : super(key: key);
@@ -19,6 +20,7 @@ class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
 }
+
 //iamf//abinne
 class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -26,6 +28,9 @@ class _SignUpState extends State<SignUp> {
   String _username;
   String _password;
   String _about;
+  String _location;
+  bool visible = true;
+
   bool _showLoader = false;
   // Initially password is obscure
   bool _obscureText = true;
@@ -43,24 +48,38 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
-    Future<dynamic> login() async {
+  Future<dynamic> signup() async {
     _showLoader = true;
     final response = await http.post(
-      url + 'auth?login='+_username+
-      '&password='+_password,
+      url +
+          'users/?username=' +
+          _username +
+          '&password=' +
+          _password +
+          '&profile[about]=' +
+          _about +
+          '&profile[location]=' +
+          _location +
+          '&privacy[allow_view_profile]=everyone' +
+          '&privacy[allow_post_profile]=everyone' +
+          '&privacy[allow_receive_news_feed]=everyone' +
+          '&privacy[allow_send_personal_conversation]=everyone' +
+          '&privacy[allow_view_identities]=everyone' +
+          '&activity_visible=true' +
+          '&visible=true',
       headers: <String, String>{
         'XF-Api-Key': apiKey,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     );
     if (response.statusCode == 200) {
-     var userId =  User.fromMap(json.decode(response.body)['user']).id;
-         Provider.of<UserModel>(context,listen: false).setId(userId.toString());
-       setState((){
-         _showLoader = false;
+      var userId = User.fromMap(json.decode(response.body)['user']).id;
+      Provider.of<UserModel>(context, listen: false).setId(userId.toString());
+      setState(() {
+        _showLoader = false;
       });
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text('SignUp Successful',
+        content: Text('Sign Up Successful',
             style: TextStyle(
               fontSize: 15.0,
               color: Colors.white,
@@ -73,13 +92,12 @@ class _SignUpState extends State<SignUp> {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                MyHomePage(),
+            builder: (context) => MyHomePage(),
           ),
           (Route<dynamic> route) => false);
     } else {
-      setState((){
-         _showLoader = false;
+      setState(() {
+        _showLoader = false;
       });
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -90,7 +108,7 @@ class _SignUpState extends State<SignUp> {
               color: Colors.white,
               fontWeight: FontWeight.w300,
             )),
-        action: SnackBarAction(label: 'RETRY', onPressed: login),
+        action: SnackBarAction(label: 'RETRY', onPressed: signup),
         //  behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.red,
         elevation: 0.0,
@@ -99,11 +117,11 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
-   void post() {
+  void post() {
     if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to our variables
       _formKey.currentState.save();
-      login();
+      signup();
     } else {
 //    If all data are not valid then start auto validation.
       setState(() {
@@ -113,12 +131,11 @@ class _SignUpState extends State<SignUp> {
   }
 
   @override
-  Widget build(BuildContext context) {   
-     final appState = Provider.of<UserModel>(context);
+  Widget build(BuildContext context) {
     return Scaffold(
-            key: _scaffoldKey,
+      key: _scaffoldKey,
       backgroundColor: Color(0xff1281dd),
-       body: new SingleChildScrollView(
+      body: new SingleChildScrollView(
         child: new Container(
           margin: new EdgeInsets.all(15.0),
           child: new Form(
@@ -127,25 +144,24 @@ class _SignUpState extends State<SignUp> {
             child: customForm(),
           ),
         ),
-      ),);
+      ),
+    );
   }
 
-    Widget customForm() {
+  Widget customForm() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         _showLoader ? Loader() : Container(),
-        Text('Log In', 
-        style: TextStyle(color: Colors.white,
-        fontSize: 22)),
+        Text('Sign Up', style: TextStyle(color: Colors.white, fontSize: 22)),
         new Container(
             margin:
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
             width: MediaQuery.of(context).size.width * 0.90,
             decoration: BoxDecoration(
-              color: Color(0xff1281dd).withOpacity(0.80),
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                color: Color(0xff1281dd).withOpacity(0.80),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 border: Border.all(color: Colors.white.withOpacity(0.25))),
             child: new TextFormField(
               decoration: new InputDecoration(
@@ -171,20 +187,20 @@ class _SignUpState extends State<SignUp> {
                 //    height: 1.0,
               ),
               onSaved: (String val) {
-                _username= val;
+                _username = val;
               },
             )),
-             new Container(
+        new Container(
             margin:
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
             width: MediaQuery.of(context).size.width * 0.90,
             decoration: BoxDecoration(
-              color: Color(0xff1281dd).withOpacity(0.80),
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                color: Color(0xff1281dd).withOpacity(0.80),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 border: Border.all(color: Colors.white.withOpacity(0.25))),
             child: new TextFormField(
-                keyboardType: TextInputType.text,
-                obscureText: _obscureText,
+              keyboardType: TextInputType.text,
+              obscureText: _obscureText,
               decoration: new InputDecoration(
                 labelText: "Password",
                 fillColor: Colors.white,
@@ -194,16 +210,14 @@ class _SignUpState extends State<SignUp> {
                   color: const Color(0xffC4C4C4),
                 ),
                 border: InputBorder.none,
-                   suffixIcon: IconButton(
-            icon: Icon(
-              // Based on passwordVisible state choose the icon
-               _obscureText
-               ? Icons.visibility
-               : Icons.visibility_off,
-               color: Theme.of(context).primaryColorDark,
-               ),
-            onPressed: _toggle,
-            ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    // Based on passwordVisible state choose the icon
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    color: Theme.of(context).primaryColorDark,
+                  ),
+                  onPressed: _toggle,
+                ),
               ),
               validator: (val) {
                 if (val.length == 0) {
@@ -221,33 +235,105 @@ class _SignUpState extends State<SignUp> {
                 _password = val;
               },
             )),
-              
-        Container(
-            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
-            child: FullButton(
-              isWhite: false,
-              title: 'Log In',
-              onPressed: post,
-            )),
-             new Container(
+        new Container(
             margin:
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
-               
-               child: Center(
-                 child: Material(
-                   child: InkWell(
-                     onTap: (){          Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType
-                  .rightToLeft,
-              child: SignUp()));},
-              child: Text('SIGN UP', style: TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.w700)),
-                   )
-                 )
-               ))
+            width: MediaQuery.of(context).size.width * 0.90,
+            decoration: BoxDecoration(
+                color: Color(0xff1281dd).withOpacity(0.80),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                border: Border.all(color: Colors.white.withOpacity(0.25))),
+            child: new TextFormField(
+              decoration: new InputDecoration(
+                labelText: "Location",
+                fillColor: Colors.white,
+                hintText: 'Enter your location',
+                hintStyle: TextStyle(
+                  fontSize: 13.0,
+                  color: const Color(0xffC4C4C4),
+                ),
+                border: InputBorder.none,
+              ),
+              validator: (val) {
+                if (val.length == 0) {
+                  return "Location field Username is required";
+                } else {
+                  return null;
+                }
+              },
+              style: new TextStyle(
+                fontSize: 16.0,
+                color: Colors.black,
+                //    height: 1.0,
+              ),
+              onSaved: (String val) {
+                _location = val;
+              },
+            )),
+        new Container(
+            margin:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+            width: MediaQuery.of(context).size.width * 0.90,
+            decoration: BoxDecoration(
+                color: Color(0xff1281dd).withOpacity(0.80),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                border: Border.all(color: Colors.white.withOpacity(0.25))),
+            child: new TextFormField(
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              decoration: new InputDecoration(
+                labelText: "About You",
+                fillColor: Colors.white,
+                hintText: 'Enter details about yourself',
+                hintStyle: TextStyle(
+                  fontSize: 13.0,
+                  color: const Color(0xffC4C4C4),
+                ),
+                border: InputBorder.none,
+              ),
+              validator: (val) {
+                if (val.length == 0) {
+                  return "About field is required";
+                } else {
+                  return null;
+                }
+              },
+              style: new TextStyle(
+                fontSize: 16.0,
+                color: Colors.black,
+                //    height: 1.0,
+              ),
+              onSaved: (String val) {
+                _about = val;
+              },
+            )),
+        Container(
+            margin:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+            child: FullButton(
+              isWhite: false,
+              title: 'REGISTER',
+              onPressed: post,
+            )),
+        new Container(
+            margin:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+            child: Center(
+                child: Material(
+                    child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft, child: Login()));
+              },
+              child: Text('LOG IN',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w700)),
+            ))))
       ],
     );
   }
-
 }

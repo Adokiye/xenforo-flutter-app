@@ -226,7 +226,7 @@ class _LoginState extends State<Login> {
             margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
             child: FullButton(
               isWhite: false,
-              title: 'Log In',
+              title: 'LOG IN',
               onPressed: post,
             )),
              new Container(
