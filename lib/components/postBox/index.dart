@@ -30,12 +30,13 @@ class _PostBoxState extends State<PostBox> {
           children: <Widget>[
             ListTile(
               leading: CircleAvatar(
+                backgroundColor: Color(0xff1281dd),
                 // backgroundImage: AssetImage(
                 //   "${widget.dp}",
                 // ),
-                child: Icon(Icons.account_circle, size: 12.0,),
+                child: Icon(Icons.account_circle, size: 28.0,),
               ),
-              contentPadding: EdgeInsets.all(0),
+              contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
               title: Text(
                 "${widget.post.user.username}",
                 style: TextStyle(
@@ -55,7 +56,7 @@ class _PostBoxState extends State<PostBox> {
             Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(top: 5.0),
-              padding: EdgeInsets.only(bottom: 5.0),
+              padding: EdgeInsets.only(bottom: 5.0,left: 10.0,right:10.0),
               decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(width: 1.0, color: Color(0xffc4c4c4)))),
                    child: Text(widget.post.message, textAlign: TextAlign.justify,

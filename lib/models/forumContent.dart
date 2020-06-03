@@ -19,11 +19,13 @@ class ForumContent {
     );
   }
     ForumContent.fromMap(Map<String, dynamic> map) {
+    print('content');
+    print(map['User']);
     this.title = map['title'];
     this.date = map['last_post_date'];
     this.id = map['thread_id'];
     this.viewCount = map['view_count'];
     this.replyCount = map['reply_count'];
-    this.user = map['user'];
+    this.user = User.fromMap(map['User']);
   }
 }

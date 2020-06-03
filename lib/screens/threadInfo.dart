@@ -99,12 +99,6 @@ class _ThreadInfoState extends State<ThreadInfo> {
                   shrinkWrap: true,
                 )
               ]),
-              Positioned(
-                  bottom: 10,
-                  child: FullButton(
-                    title: 'POST',
-                    onPressed: () {},
-                  ))
             ]);
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");

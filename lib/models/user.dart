@@ -21,6 +21,7 @@ class User {
     );
   }
     User.fromMap(Map<String, dynamic> map) {
+      print(map);
     this.username = map['username'];
     this.registerDate = map['register_date'];
     this.id = map['user_id'];

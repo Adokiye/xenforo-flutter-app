@@ -24,6 +24,7 @@ class Post {
     );
   }
     Post.fromMap(Map<String, dynamic> map) {
+    print(map['User']);
     this.message = map['message'];
     this.date = map['post_date'];
     this.editDate = map['last_edit_date'];
@@ -31,6 +32,6 @@ class Post {
     this.reactionScore = map['reaction_count'];
     this.forum = map['Thread'];
     this.attachCount = map['attach_count'];
-    this.user = map['User'];
+    this.user = User.fromMap(map['User']);
   }
 }
