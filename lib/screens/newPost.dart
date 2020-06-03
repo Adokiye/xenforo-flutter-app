@@ -173,7 +173,7 @@ class _NewPostState extends State<NewPost> {
               },
             )),
         Container(
-            margin: EdgeInsets.only(top: 10.0),
+            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
             child: BorderButton(
               title: 'POST',
               onPressed: post,

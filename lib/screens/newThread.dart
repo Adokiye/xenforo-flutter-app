@@ -208,7 +208,7 @@ class _NewThreadState extends State<NewThread> {
               },
             )),
         Container(
-            margin: EdgeInsets.only(top: 10.0),
+            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
             child: FullButton(
               isWhite: false,
               title: 'POST',

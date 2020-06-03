@@ -9,6 +9,7 @@ import 'package:xenforo/components/loader.dart';
 import 'package:flutter/services.dart';
 import 'package:xenforo/components/buttons/fullButton/index.dart';
 import 'package:xenforo/screens/home.dart';
+import 'package:xenforo/screens/auth/signup.dart';
 import 'package:provider/provider.dart';
 import 'package:xenforo/providers/user.dart';
 
@@ -220,13 +221,31 @@ class _LoginState extends State<Login> {
                 _password = val;
               },
             )),
+              
         Container(
-            margin: EdgeInsets.only(top: 10.0),
+            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
             child: FullButton(
               isWhite: false,
               title: 'Log In',
               onPressed: post,
-            ))
+            )),
+             new Container(
+            margin:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+               
+               child: Center(
+                 child: Material(
+                   child: InkWell(
+                     onTap: (){          Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeft,
+              child: SignUp()));},
+              child: Text('SIGN UP', style: TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.w700)),
+                   )
+                 )
+               ))
       ],
     );
   }
