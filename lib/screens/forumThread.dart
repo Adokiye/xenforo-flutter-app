@@ -10,6 +10,10 @@ import 'package:xenforo/components/loader.dart';
 import 'package:xenforo/components/buttons/floatingButton.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:xenforo/screens/newThread.dart';
+import 'package:provider/provider.dart';
+import 'package:xenforo/providers/user.dart';
+import 'package:xenforo/screens/auth/login.dart';
+
 
 class ForumThread extends StatefulWidget {
   final int id;
@@ -75,6 +79,25 @@ class _ForumThreadState extends State<ForumThread> {
 
   @override
   Widget build(BuildContext context) {
+        final appState = Provider.of<UserModel>(context);
+    if(appState.id != ''){
+         _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('You\'re not logged in',
+            style: TextStyle(
+              fontSize: 15.0,
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+            )),
+            action: SnackBarAction(label: 'LOGIN', onPressed: (){Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeftWithFade,
+              child: Login()));}),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0.0,
+      ));
+    }
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -116,7 +139,7 @@ class _ForumThreadState extends State<ForumThread> {
         },
       ),
       floatingActionButton: FloatingButton(
-        onPressed: () {
+        onPressed: appState.id != '' ?() {
           Navigator.push(
               context,
               PageTransition(
@@ -125,7 +148,13 @@ class _ForumThreadState extends State<ForumThread> {
                     title: widget.title,
                     id: widget.id,
                   )));
-        },
+        }
+: (){   Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeftWithFade,
+              child: Login()));},
       ),
     );
   }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:xenforo/helpers/key.dart';
 import 'dart:async';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xenforo/components/loader.dart';
 import 'package:xenforo/components/buttons/fullButton/index.dart';
 import 'package:flutter/services.dart';
 import 'package:xenforo/screens/home.dart';
+import 'package:provider/provider.dart';
+import 'package:xenforo/providers/user.dart';
 
 class NewThread extends StatefulWidget {
   final String title;
@@ -34,6 +35,7 @@ class _NewThreadState extends State<NewThread> {
       '&node_id='+widget.id.toString()+'&message='+_message,
       headers: <String, String>{
         'XF-Api-Key': apiKey,
+        'XF-Api-User': Provider.of<UserModel>(context, listen: false).id,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     );

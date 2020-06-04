@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.white,
               fontWeight: FontWeight.w300,
             )),
-            action: SnackBarAction(label: 'GO', onPressed: (){Navigator.push(
+            action: SnackBarAction(label: 'LOGIN', onPressed: (){Navigator.push(
           context,
           PageTransition(
               type: PageTransitionType

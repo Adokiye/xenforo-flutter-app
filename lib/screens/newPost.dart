@@ -8,6 +8,8 @@ import 'package:xenforo/components/buttons/borderButton/index.dart';
 import 'package:flutter/services.dart';
 import 'package:xenforo/screens/threadInfo.dart';
 import 'package:xenforo/models/forumContent.dart';
+import 'package:provider/provider.dart';
+import 'package:xenforo/providers/user.dart';
 
 class NewPost extends StatefulWidget {
   NewPost(
@@ -39,6 +41,7 @@ class _NewPostState extends State<NewPost> {
       '&message='+_message,
       headers: <String, String>{
         'XF-Api-Key': apiKey,
+        'XF-Api-User': Provider.of<UserModel>(context, listen: false).id,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     );

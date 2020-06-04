@@ -13,6 +13,9 @@ import 'package:xenforo/components/loader.dart';
 import 'package:xenforo/components/buttons/floatingButton.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:xenforo/screens/newPost.dart';
+import 'package:provider/provider.dart';
+import 'package:xenforo/providers/user.dart';
+import 'package:xenforo/screens/auth/login.dart';
 
 class ThreadInfo extends StatefulWidget {
   final int id;
@@ -26,7 +29,7 @@ class ThreadInfo extends StatefulWidget {
 }
 
 class _ThreadInfoState extends State<ThreadInfo> {
-  final GlobalKey _scaffoldKey = new GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Future<dynamic> futurePosts;
   List<Post> posts;
 
@@ -62,6 +65,28 @@ class _ThreadInfoState extends State<ThreadInfo> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<UserModel>(context);
+    if (appState.id != '') {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('You\'re not logged in',
+            style: TextStyle(
+              fontSize: 15.0,
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+            )),
+        action: SnackBarAction(
+            label: 'LOGIN',
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeftWithFade,
+                      child: Login()));
+            }),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0.0,
+      ));
+    }
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -108,17 +133,25 @@ class _ThreadInfoState extends State<ThreadInfo> {
         },
       ),
       floatingActionButton: FloatingButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: NewPost(
-                    title: widget.forumData.title,
-                    id: widget.forumData.id,
-                    forumData: widget.forumData,
-                  )));
-        },
+        onPressed: appState.id != ''
+            ? () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: NewPost(
+                          title: widget.forumData.title,
+                          id: widget.forumData.id,
+                          forumData: widget.forumData,
+                        )));
+              }
+            : () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeftWithFade,
+                        child: Login()));
+              },
       ),
     );
   }
