@@ -140,8 +140,7 @@ class _LoginState extends State<Login> {
         style: TextStyle(color: Colors.white,
         fontSize: 22)),
         new Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+            margin:EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
             width: MediaQuery.of(context).size.width * 0.90,
             decoration: BoxDecoration(
               color: Color(0xff1281dd).withOpacity(0.80),

@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:xenforo/providers/user.dart';
 import 'package:xenforo/screens/auth/login.dart';
+import 'package:xenforo/screens/profile.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -55,14 +56,18 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text('Failed to load Forums',
             style: TextStyle(
               fontSize: 15.0,
               color: Colors.white,
               fontWeight: FontWeight.w300,
             )),
-            action: SnackBarAction(label: 'RETRY', onPressed: (){fetchForums();}),
+        action: SnackBarAction(
+            label: 'RETRY',
+            onPressed: () {
+              fetchForums();
+            }),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.red,
         elevation: 0.0,
@@ -79,36 +84,37 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<UserModel>(context);
-    if(appState.id != ''){
+    if (appState.id != '') {
       stateText = 'Logout';
-      stateFunction = (){
+      stateFunction = () {
         appState.setId('');
       };
-         _scaffoldKey.currentState.showSnackBar(SnackBar(
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text('You\'re not logged in',
             style: TextStyle(
               fontSize: 15.0,
               color: Colors.white,
               fontWeight: FontWeight.w300,
             )),
-            action: SnackBarAction(label: 'LOGIN', onPressed: (){Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType
-                  .rightToLeftWithFade,
-              child: Login()));}),
+        action: SnackBarAction(
+            label: 'LOGIN',
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeftWithFade,
+                      child: Login()));
+            }),
         behavior: SnackBarBehavior.floating,
         elevation: 0.0,
       ));
-    }else{
+    } else {
       stateText = 'Login';
-      stateFunction = (){
-                Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType
-                  .rightToLeftWithFade,
-              child: Login()));
+      stateFunction = () {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeftWithFade, child: Login()));
       };
     }
     return Scaffold(
@@ -177,69 +183,84 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
             ),
             ListTile(
-              title: Text(
-                'Forums',
-                style: TextStyle(fontSize: 14.0),
-              ),
-              onTap: appState.id != ''?() {
-                Navigator.pop(context);
-              }:(){Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType
-                  .rightToLeftWithFade,
-              child: Login()));},
+              title: Text('Forums',
+                  style:
+                      TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700)),
+              onTap: appState.id != ''
+                  ? () {
+                      Navigator.pop(context);
+                    }
+                  : () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              child: Login()));
+                    },
             ),
-                  ListTile(
+            ListTile(
               title: Text(
                 'My Account',
-                style: TextStyle(fontSize: 14.0),
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
               ),
-              onTap: appState.id != '' ? () {
-                Navigator.pop(context);
-              }: (){   Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType
-                  .rightToLeftWithFade,
-              child: Login()));},
+              onTap: appState.id != ''
+                  ? () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              child: Profile()));
+                    }
+                  : () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              child: Login()));
+                    },
             ),
-                       ListTile(
+            ListTile(
               title: Text(
                 'My Wallet',
-                style: TextStyle(fontSize: 14.0),
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
               ),
-              onTap: appState.id != '' ? () {
-                Navigator.pop(context);
-              }: (){   Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType
-                  .rightToLeftWithFade,
-              child: Login()));},
+              onTap: appState.id != ''
+                  ? () {
+                      Navigator.pop(context);
+                    }
+                  : () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              child: Login()));
+                    },
             ),
             ListTile(
               title: Text(
                 'Conversations',
-                style: TextStyle(fontSize: 14.0),
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
               ),
-              onTap: appState.id != '' ? () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: Conversations()));
-              }:(){Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType
-                  .rightToLeftWithFade,
-              child: Login()));},
+              onTap: appState.id != ''
+                  ? () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: Conversations()));
+                    }
+                  : () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              child: Login()));
+                    },
             ),
             ListTile(
               title: Text(
                 stateText,
-                style: TextStyle(fontSize: 14.0),
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
               ),
               onTap: stateFunction,
             ),
